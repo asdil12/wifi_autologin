@@ -6,8 +6,13 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__) + '/..'))
 
 import configparser
 import subprocess
+import requests
 
 from wifi_autologin.networks import AutologinManager
+
+
+def is_internet_access_available():
+    return requests.get("http://detectportal.firefox.com/success.txt").text.strip() == "success"
 
 CONFIGFILE = '/etc/wifi_autologin.conf'
 
@@ -21,7 +26,11 @@ if len(sys.argv) > 1:
 ssid = subprocess.check_output(['iwgetid', '-r', device]).strip().decode()
 bssid = subprocess.check_output(['iwgetid', '-ar', device]).strip().decode()
 
-am = AutologinManager(config)
+if is_internet_access_available():
+    print("We already have internet access -> nothing to do")
+else:
+    print("No internet access -> trying to login")
+    am = AutologinManager(config)
+    am.login(ssid, bssid)
 
 
-am.login(ssid, bssid)
