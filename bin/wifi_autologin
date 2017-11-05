@@ -12,7 +12,11 @@ from wifi_autologin.networks import AutologinManager
 
 
 def is_internet_access_available():
-    return requests.get("http://detectportal.firefox.com/success.txt").text.strip() == "success"
+    try:
+        return requests.get("http://detectportal.firefox.com/success.txt").text.strip() == "success"
+    except:
+        print("Error checking internet connection status (not connected?)")
+        return False
 
 CONFIGFILE = '/etc/wifi_autologin.conf'
 
