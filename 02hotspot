@@ -1,0 +1,15 @@
+#!/bin/bash
+
+interface="$1"
+action="$2"
+
+#check for right interface and action
+if [ "$interface" != "wlan0" ] || [ "$action" != "up" ]; then
+  exit 0
+fi
+
+#Check for SSID
+#current_ssid=`/sbin/iwconfig 2>/dev/null | grep -oP '(?<=ESSID:").+(?=")'`
+#current_ssid="$(iwgetid -r $INTERFACE)"
+
+wifi_autologin
