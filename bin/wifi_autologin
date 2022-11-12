@@ -36,5 +36,7 @@ else:
     print("No internet access -> trying to login")
     am = AutologinManager(config)
     am.login(ssid, bssid)
-
-
+    if is_internet_access_available():
+        print("Successfully logged in")
+    else:
+        print("Still no internet after login")
